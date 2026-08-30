@@ -192,11 +192,9 @@ SIGNS = {
          "The heavy-vehicle passing restriction ends.",
          "Follow the next applicable signs.")
 }
-
 # ============================================================
 # 🎨 CUSTOM CSS - LIGHT, COLOURFUL & MOBILE FRIENDLY
 # ============================================================
-
 st.markdown("""
 <style>
 
@@ -250,6 +248,15 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.25 !important;
 }
 
+/* Yahi wo naya fix hai — cards ke andar wale h1/h2 (jaise "Welcome to Traffic Sign AI") ka size control karta hai */
+.card h1, .card h2 {
+    font-size: 26px !important;
+}
+
+.result-card h1, .result-card h2 {
+    font-size: 24px !important;
+}
+
 
 /* ============================================================
    NORMAL TEXT
@@ -273,9 +280,7 @@ label {
 .hero {
     width: 100%;
     box-sizing: border-box;
-
     padding: 24px 20px;
-
     border-radius: 22px;
 
     background:
@@ -290,28 +295,21 @@ label {
         0 10px 28px rgba(79, 70, 229, 0.16);
 
     margin-bottom: 18px;
-
     overflow: hidden;
 }
 
 .hero-title {
     font-size: 48px;
     line-height: 1.15;
-
     font-weight: 900;
-
     color: #ffffff !important;
-
     margin: 0 0 8px 0;
 }
 
 .hero-subtitle {
     font-size: 16px;
-
     line-height: 1.4;
-
     color: #ffffff !important;
-
     margin: 0;
 }
 
@@ -323,20 +321,16 @@ label {
 .card {
     width: 100%;
     box-sizing: border-box;
-
     padding: 20px;
-
     border-radius: 18px;
 
     background: rgba(255, 255, 255, 0.96);
-
     border: 1px solid #dbe7f3;
 
     box-shadow:
         0 6px 20px rgba(30, 64, 175, 0.07);
 
     margin-bottom: 16px;
-
     overflow: hidden;
 }
 
@@ -348,9 +342,7 @@ label {
 .result-card {
     width: 100%;
     box-sizing: border-box;
-
     padding: 22px;
-
     border-radius: 20px;
 
     background:
@@ -366,29 +358,21 @@ label {
         0 8px 24px rgba(30, 64, 175, 0.08);
 
     margin-bottom: 18px;
-
     overflow: hidden;
 }
 
 .sign-name {
     font-size: 28px;
-
     line-height: 1.2;
-
     font-weight: 900;
-
     color: #172033 !important;
-
     word-wrap: break-word;
 }
 
 .confidence {
     font-size: 38px;
-
     line-height: 1.1;
-
     font-weight: 900;
-
     color: #2563eb !important;
 }
 
@@ -399,23 +383,17 @@ label {
 
 .badge {
     display: inline-block;
-
     padding: 6px 11px;
-
     border-radius: 999px;
 
     background: #e0ecff;
-
     color: #1e40af !important;
-
     border: 1px solid #bfd5f5;
 
     margin-right: 5px;
-
     margin-bottom: 5px;
 
     font-size: 13px;
-
     font-weight: 700;
 }
 
@@ -426,7 +404,6 @@ label {
 
 .stButton > button {
     width: 100%;
-
     min-height: 44px;
 
     background:
@@ -438,15 +415,11 @@ label {
         );
 
     color: #ffffff !important;
-
     border: none;
-
     border-radius: 11px;
-
     padding: 9px 16px;
 
     font-size: 15px;
-
     font-weight: 800;
 
     box-shadow:
@@ -455,7 +428,6 @@ label {
 
 .stButton > button:hover {
     transform: translateY(-1px);
-
     box-shadow:
         0 8px 18px rgba(79, 70, 229, 0.23);
 }
@@ -467,17 +439,11 @@ label {
 
 .stTextInput input {
     background: #ffffff !important;
-
     color: #172033 !important;
-
     border: 1px solid #bfd0e3 !important;
-
     border-radius: 11px !important;
-
     min-height: 42px !important;
-
     padding: 9px 12px !important;
-
     font-size: 15px !important;
 }
 
@@ -492,13 +458,9 @@ label {
 
 div[data-baseweb="select"] > div {
     background: #ffffff !important;
-
     color: #172033 !important;
-
     border: 1px solid #bfd0e3 !important;
-
     border-radius: 11px !important;
-
     min-height: 42px;
 }
 
@@ -513,11 +475,8 @@ div[data-baseweb="select"] span {
 
 section[data-testid="stFileUploaderDropzone"] {
     background: #ffffff !important;
-
     border: 2px dashed #8bb8e8 !important;
-
     border-radius: 16px !important;
-
     padding: 14px !important;
 }
 
@@ -532,11 +491,8 @@ section[data-testid="stFileUploaderDropzone"] * {
 
 div[data-testid="stMetric"] {
     background: rgba(255, 255, 255, 0.96);
-
     border: 1px solid #dbe5f0;
-
     border-radius: 15px;
-
     padding: 13px;
 
     box-shadow:
@@ -545,15 +501,12 @@ div[data-testid="stMetric"] {
 
 div[data-testid="stMetricLabel"] {
     color: #64748b !important;
-
     font-size: 13px !important;
 }
 
 div[data-testid="stMetricValue"] {
     color: #172033 !important;
-
     font-size: 25px !important;
-
     font-weight: 900 !important;
 }
 
@@ -584,11 +537,8 @@ section[data-testid="stSidebar"] * {
 
 div[data-testid="stExpander"] {
     background: #ffffff !important;
-
     border: 1px solid #dbe5f0 !important;
-
     border-radius: 13px !important;
-
     overflow: hidden;
 }
 
@@ -603,11 +553,8 @@ div[data-testid="stExpander"] * {
 
 div[data-testid="stDataFrame"] {
     background: #ffffff;
-
     border-radius: 12px;
-
     border: 1px solid #dbe5f0;
-
     overflow: hidden;
 }
 
@@ -618,15 +565,11 @@ div[data-testid="stDataFrame"] {
 
 .footer {
     width: 100%;
-
     text-align: center;
-
     padding: 20px 10px;
 
     color: #475569 !important;
-
     font-size: 13px;
-
     line-height: 1.4;
 }
 
@@ -637,9 +580,10 @@ div[data-testid="stDataFrame"] {
 
 hr {
     border-color: #dbe5f0 !important;
-
     margin: 12px 0 !important;
 }
+
+
 /* ============================================================
    MOBILE - PHONE
    ============================================================ */
@@ -682,11 +626,21 @@ hr {
         box-sizing: border-box;
     }
 
+    /* Naya fix - mobile par "Welcome to Traffic Sign AI" jaisa heading */
+    .card h1, .card h2 {
+        font-size: 20px !important;
+        line-height: 1.25 !important;
+    }
+
     .result-card {
         width: 100%;
         padding: 16px;
         border-radius: 16px;
         box-sizing: border-box;
+    }
+
+    .result-card h1, .result-card h2 {
+        font-size: 19px !important;
     }
 
     .sign-name {
@@ -740,8 +694,16 @@ hr {
         padding: 13px;
     }
 
+    .card h1, .card h2 {
+        font-size: 18px !important;
+    }
+
     .result-card {
         padding: 14px;
+    }
+
+    .result-card h1, .result-card h2 {
+        font-size: 17px !important;
     }
 
     .sign-name {
@@ -754,7 +716,6 @@ hr {
 }
 
 
-        
 /* ============================================================
    PREVENT HORIZONTAL OVERFLOW
    ============================================================ */
@@ -769,6 +730,11 @@ html, body {
 
 </style>
 """, unsafe_allow_html=True)
+        
+    
+
+
+
 
 # ============================================================
 # SESSION STATE
