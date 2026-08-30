@@ -200,26 +200,21 @@ SIGNS = {
 st.markdown("""
 <style>
 
-/* =========================
-   MAIN BACKGROUND
-   ========================= */
+/* ============================================================
+   MAIN APP
+   ============================================================ */
 
 .stApp {
     background:
         radial-gradient(
             circle at 10% 10%,
-            rgba(147, 197, 253, 0.30),
-            transparent 30%
+            rgba(147, 197, 253, 0.22),
+            transparent 28%
         ),
         radial-gradient(
-            circle at 90% 20%,
-            rgba(196, 181, 253, 0.25),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(253, 186, 116, 0.20),
-            transparent 35%
+            circle at 90% 15%,
+            rgba(196, 181, 253, 0.20),
+            transparent 28%
         ),
         linear-gradient(
             135deg,
@@ -232,34 +227,37 @@ st.markdown("""
 }
 
 
-/* =========================
-   MAIN CONTENT
-   ========================= */
-
+/* ============================================================
+   CONTENT AREA
+   ============================================================ */
 
 .block-container {
-    max-width: 1400px;
-    padding-top: 1.5rem;
-    padding-bottom: 3rem;
+    max-width: 1200px;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 
-/* =========================
+/* ============================================================
    HEADINGS
-   ========================= */
+   ============================================================ */
 
 h1, h2, h3, h4, h5, h6 {
     color: #172033 !important;
     font-weight: 800 !important;
+    line-height: 1.25 !important;
 }
 
 
-/* =========================
+/* ============================================================
    NORMAL TEXT
-   ========================= */
+   ============================================================ */
 
 p {
     color: #334155 !important;
+    line-height: 1.5 !important;
 }
 
 label {
@@ -268,68 +266,92 @@ label {
 }
 
 
-/* =========================
-   HERO
-   ========================= */
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
 
 .hero {
-    padding: 35px;
-    border-radius: 28px;
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 24px 20px;
+
+    border-radius: 22px;
 
     background:
         linear-gradient(
             135deg,
-            #60a5fa,
-            #818cf8,
-            #c084fc
+            #60a5fa 0%,
+            #818cf8 50%,
+            #c084fc 100%
         );
 
     box-shadow:
-        0 15px 40px rgba(79, 70, 229, 0.18);
+        0 10px 28px rgba(79, 70, 229, 0.16);
 
-    margin-bottom: 25px;
+    margin-bottom: 18px;
+
+    overflow: hidden;
 }
 
 .hero-title {
-    font-size: 46px;
+    font-size: 36px;
+    line-height: 1.15;
+
     font-weight: 900;
-    color: white !important;
+
+    color: #ffffff !important;
+
+    margin: 0 0 8px 0;
 }
 
 .hero-subtitle {
-    font-size: 19px;
-    color: white !important;
+    font-size: 16px;
+
+    line-height: 1.4;
+
+    color: #ffffff !important;
+
+    margin: 0;
 }
 
 
-/* =========================
+/* ============================================================
    CARDS
-   ========================= */
+   ============================================================ */
 
 .card {
-    padding: 25px;
+    width: 100%;
+    box-sizing: border-box;
 
-    border-radius: 22px;
+    padding: 20px;
 
-    background: rgba(255,255,255,0.96);
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.96);
 
     border: 1px solid #dbe7f3;
 
     box-shadow:
-        0 8px 25px rgba(30,64,175,0.08);
+        0 6px 20px rgba(30, 64, 175, 0.07);
 
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+
+    overflow: hidden;
 }
 
 
-/* =========================
+/* ============================================================
    RESULT CARD
-   ========================= */
+   ============================================================ */
 
 .result-card {
-    padding: 30px;
+    width: 100%;
+    box-sizing: border-box;
 
-    border-radius: 25px;
+    padding: 22px;
+
+    border-radius: 20px;
 
     background:
         linear-gradient(
@@ -341,32 +363,44 @@ label {
     border: 1px solid #c7d8f0;
 
     box-shadow:
-        0 12px 30px rgba(30,64,175,0.10);
+        0 8px 24px rgba(30, 64, 175, 0.08);
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+
+    overflow: hidden;
 }
 
 .sign-name {
-    font-size: 34px;
+    font-size: 28px;
+
+    line-height: 1.2;
+
     font-weight: 900;
+
     color: #172033 !important;
+
+    word-wrap: break-word;
 }
 
 .confidence {
-    font-size: 44px;
+    font-size: 38px;
+
+    line-height: 1.1;
+
     font-weight: 900;
+
     color: #2563eb !important;
 }
 
 
-/* =========================
+/* ============================================================
    BADGES
-   ========================= */
+   ============================================================ */
 
 .badge {
     display: inline-block;
 
-    padding: 7px 14px;
+    padding: 6px 11px;
 
     border-radius: 999px;
 
@@ -376,19 +410,24 @@ label {
 
     border: 1px solid #bfd5f5;
 
-    margin-right: 7px;
-    margin-bottom: 7px;
+    margin-right: 5px;
+
+    margin-bottom: 5px;
+
+    font-size: 13px;
 
     font-weight: 700;
 }
 
 
-/* =========================
+/* ============================================================
    BUTTONS
-   ========================= */
+   ============================================================ */
 
 .stButton > button {
     width: 100%;
+
+    min-height: 44px;
 
     background:
         linear-gradient(
@@ -398,33 +437,33 @@ label {
             #8b5cf6
         );
 
-    color: white !important;
+    color: #ffffff !important;
 
     border: none;
 
-    border-radius: 13px;
+    border-radius: 11px;
 
-    padding: 11px 20px;
+    padding: 9px 16px;
+
+    font-size: 15px;
 
     font-weight: 800;
 
     box-shadow:
-        0 6px 16px rgba(79,70,229,0.20);
-
-    transition: 0.2s;
+        0 5px 14px rgba(79, 70, 229, 0.18);
 }
 
 .stButton > button:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 
     box-shadow:
-        0 10px 22px rgba(79,70,229,0.28);
+        0 8px 18px rgba(79, 70, 229, 0.23);
 }
 
 
-/* =========================
+/* ============================================================
    TEXT INPUT
-   ========================= */
+   ============================================================ */
 
 .stTextInput input {
     background: #ffffff !important;
@@ -433,9 +472,13 @@ label {
 
     border: 1px solid #bfd0e3 !important;
 
-    border-radius: 12px !important;
+    border-radius: 11px !important;
 
-    padding: 12px !important;
+    min-height: 42px !important;
+
+    padding: 9px 12px !important;
+
+    font-size: 15px !important;
 }
 
 .stTextInput input::placeholder {
@@ -443,9 +486,9 @@ label {
 }
 
 
-/* =========================
+/* ============================================================
    SELECT BOX
-   ========================= */
+   ============================================================ */
 
 div[data-baseweb="select"] > div {
     background: #ffffff !important;
@@ -454,7 +497,9 @@ div[data-baseweb="select"] > div {
 
     border: 1px solid #bfd0e3 !important;
 
-    border-radius: 12px !important;
+    border-radius: 11px !important;
+
+    min-height: 42px;
 }
 
 div[data-baseweb="select"] span {
@@ -462,18 +507,18 @@ div[data-baseweb="select"] span {
 }
 
 
-/* =========================
+/* ============================================================
    FILE UPLOADER
-   ========================= */
+   ============================================================ */
 
 section[data-testid="stFileUploaderDropzone"] {
     background: #ffffff !important;
 
     border: 2px dashed #8bb8e8 !important;
 
-    border-radius: 18px !important;
+    border-radius: 16px !important;
 
-    padding: 20px !important;
+    padding: 14px !important;
 }
 
 section[data-testid="stFileUploaderDropzone"] * {
@@ -481,37 +526,41 @@ section[data-testid="stFileUploaderDropzone"] * {
 }
 
 
-/* =========================
+/* ============================================================
    METRICS
-   ========================= */
+   ============================================================ */
 
 div[data-testid="stMetric"] {
-    background: rgba(255,255,255,0.96);
+    background: rgba(255, 255, 255, 0.96);
 
     border: 1px solid #dbe5f0;
 
-    border-radius: 18px;
+    border-radius: 15px;
 
-    padding: 18px;
+    padding: 13px;
 
     box-shadow:
-        0 6px 18px rgba(30,64,175,0.08);
+        0 5px 15px rgba(30, 64, 175, 0.07);
 }
 
 div[data-testid="stMetricLabel"] {
     color: #64748b !important;
+
+    font-size: 13px !important;
 }
 
 div[data-testid="stMetricValue"] {
     color: #172033 !important;
 
+    font-size: 25px !important;
+
     font-weight: 900 !important;
 }
 
 
-/* =========================
+/* ============================================================
    SIDEBAR
-   ========================= */
+   ============================================================ */
 
 section[data-testid="stSidebar"] {
     background:
@@ -529,16 +578,18 @@ section[data-testid="stSidebar"] * {
 }
 
 
-/* =========================
+/* ============================================================
    EXPANDER
-   ========================= */
+   ============================================================ */
 
 div[data-testid="stExpander"] {
     background: #ffffff !important;
 
     border: 1px solid #dbe5f0 !important;
 
-    border-radius: 15px !important;
+    border-radius: 13px !important;
+
+    overflow: hidden;
 }
 
 div[data-testid="stExpander"] * {
@@ -546,14 +597,14 @@ div[data-testid="stExpander"] * {
 }
 
 
-/* =========================
+/* ============================================================
    DATAFRAME
-   ========================= */
+   ============================================================ */
 
 div[data-testid="stDataFrame"] {
     background: #ffffff;
 
-    border-radius: 15px;
+    border-radius: 12px;
 
     border: 1px solid #dbe5f0;
 
@@ -561,65 +612,152 @@ div[data-testid="stDataFrame"] {
 }
 
 
-/* =========================
+/* ============================================================
    FOOTER
-   ========================= */
+   ============================================================ */
 
 .footer {
+    width: 100%;
+
     text-align: center;
 
-    padding: 30px;
+    padding: 20px 10px;
 
     color: #475569 !important;
 
-    font-size: 14px;
+    font-size: 13px;
+
+    line-height: 1.4;
 }
 
 
-/* =========================
+/* ============================================================
    DIVIDER
-   ========================= */
+   ============================================================ */
 
 hr {
     border-color: #dbe5f0 !important;
+
+    margin: 12px 0 !important;
 }
 
 
-/* =========================
-   MOBILE
-   ========================= */
+/* ============================================================
+   MOBILE - SMALL PHONE
+   ============================================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
+
+    .block-container {
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+        padding-top: 0.7rem;
+    }
 
     .hero {
-        padding: 25px;
-        border-radius: 22px;
+        padding: 20px 16px;
+
+        border-radius: 18px;
+
+        margin-bottom: 14px;
     }
 
     .hero-title {
-        font-size: 32px;
+        font-size: 28px;
+
+        line-height: 1.15;
+
+        word-break: normal;
     }
 
     .hero-subtitle {
-        font-size: 16px;
-    }
+        font-size: 14px;
 
-    .sign-name {
-        font-size: 27px;
-    }
-
-    .confidence {
-        font-size: 38px;
+        line-height: 1.35;
     }
 
     .card {
-        padding: 18px;
+        padding: 16px;
+
+        border-radius: 16px;
     }
 
     .result-card {
-        padding: 20px;
+        padding: 18px;
+
+        border-radius: 17px;
     }
 
+    .sign-name {
+        font-size: 24px;
+    }
+
+    .confidence {
+        font-size: 32px;
+    }
+
+    .badge {
+        font-size: 12px;
+
+        padding: 5px 9px;
+    }
+
+    .stButton > button {
+        min-height: 42px;
+
+        font-size: 14px;
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL PHONE
+   ============================================================ */
+
+@media (max-width: 400px) {
+
+    .hero {
+        padding: 17px 14px;
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .hero-subtitle {
+        font-size: 13px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .result-card {
+        padding: 15px;
+    }
+
+    .sign-name {
+        font-size: 21px;
+    }
+
+    .confidence {
+        font-size: 29px;
+    }
+
+}
+
+
+/* ============================================================
+   PREVENT HORIZONTAL OVERFLOW
+   ============================================================ */
+
+html, body {
+    overflow-x: hidden !important;
+}
+
+[data-testid="stAppViewContainer"] {
+    overflow-x: hidden !important;
 }
 
 </style>
