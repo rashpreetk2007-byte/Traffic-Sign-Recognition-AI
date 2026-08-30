@@ -193,6 +193,437 @@ SIGNS = {
          "Follow the next applicable signs.")
 }
 # ============================================================
+# 🎨 CUSTOM CSS - LIGHT, COLOURFUL & MOBILE FRIENDLY
+# ============================================================
+
+st.markdown("""
+<style>
+
+/* =========================
+   MAIN BACKGROUND
+   ========================= */
+
+.stApp {
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(147, 197, 253, 0.30),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(196, 181, 253, 0.25),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(253, 186, 116, 0.20),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #f8fbff 0%,
+            #eef6ff 50%,
+            #fff8f0 100%
+        );
+
+    color: #172033;
+}
+
+
+/* =========================
+   MAIN CONTENT
+   ========================= */
+
+.block-container {
+    max-width: 1400px;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+
+/* =========================
+   HEADINGS
+   ========================= */
+
+h1, h2, h3, h4, h5, h6 {
+    color: #172033 !important;
+    font-weight: 800 !important;
+}
+
+
+/* =========================
+   NORMAL TEXT
+   ========================= */
+
+p {
+    color: #334155 !important;
+}
+
+label {
+    color: #172033 !important;
+    font-weight: 600 !important;
+}
+
+
+/* =========================
+   HERO
+   ========================= */
+
+.hero {
+    padding: 35px;
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #60a5fa,
+            #818cf8,
+            #c084fc
+        );
+
+    box-shadow:
+        0 15px 40px rgba(79, 70, 229, 0.18);
+
+    margin-bottom: 25px;
+}
+
+.hero-title {
+    font-size: 46px;
+    font-weight: 900;
+    color: white !important;
+}
+
+.hero-subtitle {
+    font-size: 19px;
+    color: white !important;
+}
+
+
+/* =========================
+   CARDS
+   ========================= */
+
+.card {
+    padding: 25px;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.96);
+
+    border: 1px solid #dbe7f3;
+
+    box-shadow:
+        0 8px 25px rgba(30,64,175,0.08);
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   RESULT CARD
+   ========================= */
+
+.result-card {
+    padding: 30px;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e0f2fe,
+            #ede9fe
+        );
+
+    border: 1px solid #c7d8f0;
+
+    box-shadow:
+        0 12px 30px rgba(30,64,175,0.10);
+
+    margin-bottom: 20px;
+}
+
+.sign-name {
+    font-size: 34px;
+    font-weight: 900;
+    color: #172033 !important;
+}
+
+.confidence {
+    font-size: 44px;
+    font-weight: 900;
+    color: #2563eb !important;
+}
+
+
+/* =========================
+   BADGES
+   ========================= */
+
+.badge {
+    display: inline-block;
+
+    padding: 7px 14px;
+
+    border-radius: 999px;
+
+    background: #e0ecff;
+
+    color: #1e40af !important;
+
+    border: 1px solid #bfd5f5;
+
+    margin-right: 7px;
+    margin-bottom: 7px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.stButton > button {
+    width: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4f8cff,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color: white !important;
+
+    border: none;
+
+    border-radius: 13px;
+
+    padding: 11px 20px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 6px 16px rgba(79,70,229,0.20);
+
+    transition: 0.2s;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 22px rgba(79,70,229,0.28);
+}
+
+
+/* =========================
+   TEXT INPUT
+   ========================= */
+
+.stTextInput input {
+    background: #ffffff !important;
+
+    color: #172033 !important;
+
+    border: 1px solid #bfd0e3 !important;
+
+    border-radius: 12px !important;
+
+    padding: 12px !important;
+}
+
+.stTextInput input::placeholder {
+    color: #64748b !important;
+}
+
+
+/* =========================
+   SELECT BOX
+   ========================= */
+
+div[data-baseweb="select"] > div {
+    background: #ffffff !important;
+
+    color: #172033 !important;
+
+    border: 1px solid #bfd0e3 !important;
+
+    border-radius: 12px !important;
+}
+
+div[data-baseweb="select"] span {
+    color: #172033 !important;
+}
+
+
+/* =========================
+   FILE UPLOADER
+   ========================= */
+
+section[data-testid="stFileUploaderDropzone"] {
+    background: #ffffff !important;
+
+    border: 2px dashed #8bb8e8 !important;
+
+    border-radius: 18px !important;
+
+    padding: 20px !important;
+}
+
+section[data-testid="stFileUploaderDropzone"] * {
+    color: #172033 !important;
+}
+
+
+/* =========================
+   METRICS
+   ========================= */
+
+div[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.96);
+
+    border: 1px solid #dbe5f0;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 6px 18px rgba(30,64,175,0.08);
+}
+
+div[data-testid="stMetricLabel"] {
+    color: #64748b !important;
+}
+
+div[data-testid="stMetricValue"] {
+    color: #172033 !important;
+
+    font-weight: 900 !important;
+}
+
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+section[data-testid="stSidebar"] {
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f5f9ff 100%
+        );
+
+    border-right: 1px solid #dbe5f0;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #172033 !important;
+}
+
+
+/* =========================
+   EXPANDER
+   ========================= */
+
+div[data-testid="stExpander"] {
+    background: #ffffff !important;
+
+    border: 1px solid #dbe5f0 !important;
+
+    border-radius: 15px !important;
+}
+
+div[data-testid="stExpander"] * {
+    color: #172033 !important;
+}
+
+
+/* =========================
+   DATAFRAME
+   ========================= */
+
+div[data-testid="stDataFrame"] {
+    background: #ffffff;
+
+    border-radius: 15px;
+
+    border: 1px solid #dbe5f0;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+    text-align: center;
+
+    padding: 30px;
+
+    color: #475569 !important;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   DIVIDER
+   ========================= */
+
+hr {
+    border-color: #dbe5f0 !important;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+
+    .hero {
+        padding: 25px;
+        border-radius: 22px;
+    }
+
+    .hero-title {
+        font-size: 32px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .sign-name {
+        font-size: 27px;
+    }
+
+    .confidence {
+        font-size: 38px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .result-card {
+        padding: 20px;
+    }
+
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ============================================================
 # SESSION STATE
 # ============================================================
 
@@ -204,147 +635,6 @@ if "history" not in st.session_state:
 
 if "page" not in st.session_state:
     st.session_state.page = "🏠 Home"
-
-# ============================================================
-# CUSTOM CSS
-# ============================================================
-
-st.markdown("""
-<style>
-
-.stApp {
-    background:
-        radial-gradient(
-            circle at 10% 10%,
-            rgba(59,130,246,0.35),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 90% 90%,
-            rgba(217,70,239,0.30),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            #020617,
-            #111827,
-            #1e1b4b
-        );
-
-    color: white;
-}
-
-.block-container {
-    max-width: 1400px;
-    padding-top: 1.5rem;
-}
-
-.hero {
-    padding: 38px;
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(37,99,235,0.90),
-            rgba(124,58,237,0.90),
-            rgba(219,39,119,0.85)
-        );
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,0.45);
-
-    margin-bottom: 25px;
-}
-
-.hero-title {
-    font-size: 48px;
-    font-weight: 900;
-    margin-bottom: 8px;
-}
-
-.hero-subtitle {
-    font-size: 19px;
-    color: #f8fafc;
-}
-
-.card {
-    padding: 25px;
-    border-radius: 23px;
-
-    background: rgba(255,255,255,0.08);
-
-    border:
-        1px solid rgba(255,255,255,0.13);
-
-    box-shadow:
-        0 12px 35px rgba(0,0,0,0.25);
-
-    margin-bottom: 20px;
-}
-
-.result-card {
-    padding: 30px;
-    border-radius: 25px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(16,185,129,0.20),
-            rgba(59,130,246,0.20),
-            rgba(168,85,247,0.20)
-        );
-
-    border:
-        1px solid rgba(255,255,255,0.16);
-
-    box-shadow:
-        0 15px 40px rgba(0,0,0,0.25);
-}
-
-.sign-name {
-    font-size: 34px;
-    font-weight: 900;
-}
-
-.confidence {
-    font-size: 46px;
-    font-weight: 900;
-}
-
-.badge {
-    display: inline-block;
-
-    padding: 7px 14px;
-
-    border-radius: 999px;
-
-    background: rgba(255,255,255,0.13);
-
-    margin-right: 7px;
-    margin-bottom: 7px;
-}
-
-.section-title {
-    font-size: 28px;
-    font-weight: 800;
-    margin-top: 25px;
-}
-
-.footer {
-    text-align: center;
-    padding: 30px;
-    color: #94a3b8;
-}
-
-div[data-testid="stMetric"] {
-    background: rgba(255,255,255,0.07);
-    border-radius: 18px;
-    padding: 15px;
-}
-
-</style>
-""", unsafe_allow_html=True)
 
 # ============================================================
 # SIDEBAR
