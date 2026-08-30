@@ -192,6 +192,7 @@ SIGNS = {
          "The heavy-vehicle passing restriction ends.",
          "Follow the next applicable signs.")
 }
+
 # ============================================================
 # 🎨 CUSTOM CSS - LIGHT, COLOURFUL & MOBILE FRIENDLY
 # ============================================================
@@ -234,6 +235,7 @@ st.markdown("""
 /* =========================
    MAIN CONTENT
    ========================= */
+
 
 .block-container {
     max-width: 1400px;
