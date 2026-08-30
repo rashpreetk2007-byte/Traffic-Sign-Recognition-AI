@@ -295,7 +295,7 @@ label {
 }
 
 .hero-title {
-    font-size: 36px;
+    font-size: 48px;
     line-height: 1.15;
 
     font-weight: 900;
@@ -570,7 +570,7 @@ section[data-testid="stSidebar"] {
             #f5f9ff 100%
         );
 
-    border-right: 1px solid #dbe5f0;
+    border-28pxt: 1px solid #dbe5f0;
 }
 
 section[data-testid="stSidebar"] * {
@@ -640,74 +640,79 @@ hr {
 
     margin: 12px 0 !important;
 }
-
-
 /* ============================================================
-   MOBILE - SMALL PHONE
+   MOBILE - PHONE
    ============================================================ */
 
 @media (max-width: 600px) {
 
     .block-container {
-        padding-left: 0.7rem;
-        padding-right: 0.7rem;
-        padding-top: 0.7rem;
+        padding-left: 0.65rem !important;
+        padding-right: 0.65rem !important;
+        padding-top: 0.6rem !important;
+        padding-bottom: 1.5rem !important;
     }
 
     .hero {
-        padding: 20px 16px;
-
-        border-radius: 18px;
-
+        width: 100%;
+        padding: 18px 14px;
+        border-radius: 17px;
         margin-bottom: 14px;
+        box-sizing: border-box;
     }
 
     .hero-title {
-        font-size: 28px;
-
-        line-height: 1.15;
-
-        word-break: normal;
+        font-size: 26px !important;
+        line-height: 1.2 !important;
+        font-weight: 900 !important;
+        word-break: normal !important;
+        overflow-wrap: normal !important;
+        margin: 0 0 7px 0 !important;
     }
 
     .hero-subtitle {
-        font-size: 14px;
-
-        line-height: 1.35;
+        font-size: 13px !important;
+        line-height: 1.35 !important;
     }
 
     .card {
-        padding: 16px;
-
-        border-radius: 16px;
+        width: 100%;
+        padding: 15px;
+        border-radius: 15px;
+        box-sizing: border-box;
     }
 
     .result-card {
-        padding: 18px;
-
-        border-radius: 17px;
+        width: 100%;
+        padding: 16px;
+        border-radius: 16px;
+        box-sizing: border-box;
     }
 
     .sign-name {
-        font-size: 24px;
+        font-size: 23px !important;
+        line-height: 1.2 !important;
     }
 
     .confidence {
-        font-size: 32px;
+        font-size: 31px !important;
     }
 
     .badge {
-        font-size: 12px;
-
-        padding: 5px 9px;
+        font-size: 11px !important;
+        padding: 5px 8px !important;
+        margin-right: 3px !important;
+        margin-bottom: 4px !important;
     }
 
     .stButton > button {
-        min-height: 42px;
-
-        font-size: 14px;
+        min-height: 42px !important;
+        font-size: 14px !important;
     }
 
+    .stTextInput input {
+        font-size: 14px !important;
+    }
 }
 
 
@@ -718,36 +723,38 @@ hr {
 @media (max-width: 400px) {
 
     .hero {
-        padding: 17px 14px;
+        padding: 16px 12px;
+        border-radius: 15px;
     }
 
     .hero-title {
-        font-size: 21px;
+        font-size: 22px !important;
+        line-height: 1.2 !important;
     }
 
     .hero-subtitle {
-        font-size: 13px;
+        font-size: 12px !important;
     }
 
     .card {
-        padding: 14px;
+        padding: 13px;
     }
 
     .result-card {
-        padding: 15px;
+        padding: 14px;
     }
 
     .sign-name {
-        font-size: 21px;
+        font-size: 20px !important;
     }
 
     .confidence {
-        font-size: 29px;
+        font-size: 28px !important;
     }
-
 }
 
 
+        
 /* ============================================================
    PREVENT HORIZONTAL OVERFLOW
    ============================================================ */
