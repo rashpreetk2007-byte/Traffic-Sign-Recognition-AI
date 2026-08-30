@@ -722,7 +722,7 @@ hr {
     }
 
     .hero-title {
-        font-size: 24px;
+        font-size: 21px;
     }
 
     .hero-subtitle {
