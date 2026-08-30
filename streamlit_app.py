@@ -570,7 +570,7 @@ section[data-testid="stSidebar"] {
             #f5f9ff 100%
         );
 
-    border-28pxt: 1px solid #dbe5f0;
+    border-right: 1px solid #dbe5f0;
 }
 
 section[data-testid="stSidebar"] * {
