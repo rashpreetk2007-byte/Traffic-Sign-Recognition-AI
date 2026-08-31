@@ -212,34 +212,28 @@ if "page" not in st.session_state:
 
 if "last_prediction" not in st.session_state:
     st.session_state.last_prediction = None
+    
 # ============================================================
-# CUSTOM CSS
+# 🎨 CUSTOM CSS - MOBILE SAFE VERSION
 # ============================================================
 
 st.markdown("""
 <style>
 
-/* ============================================================
-   GLOBAL
-   ============================================================ */
-
-html,
-body {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-}
+/* =========================
+   MAIN APP
+   ========================= */
 
 .stApp {
     background:
         radial-gradient(
             circle at 10% 10%,
-            rgba(147,197,253,0.22),
+            rgba(147, 197, 253, 0.18),
             transparent 30%
         ),
         radial-gradient(
-            circle at 90% 10%,
-            rgba(196,181,253,0.20),
+            circle at 90% 15%,
+            rgba(196, 181, 253, 0.16),
             transparent 30%
         ),
         linear-gradient(
@@ -253,37 +247,37 @@ body {
 }
 
 
-/* ============================================================
+/* =========================
    CONTENT
-   ============================================================ */
+   ========================= */
 
 .block-container {
-    width: 100% !important;
     max-width: 1200px !important;
 
-    box-sizing: border-box !important;
-
-    padding-top: 1rem !important;
+    padding-top: 0.8rem !important;
     padding-bottom: 2rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+
+    overflow: visible !important;
 }
 
 
-/* ============================================================
-   TEXT
-   ============================================================ */
+/* =========================
+   HEADINGS
+   ========================= */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     color: #172033 !important;
     font-weight: 800 !important;
     line-height: 1.25 !important;
 }
+
+
+/* =========================
+   TEXT
+   ========================= */
 
 p {
     color: #334155 !important;
@@ -297,7 +291,7 @@ label {
 
 
 /* ============================================================
-   HERO
+   🚦 HERO BOX
    ============================================================ */
 
 .hero {
@@ -306,7 +300,7 @@ label {
 
     box-sizing: border-box !important;
 
-    padding: 24px 20px !important;
+    padding: 22px 18px !important;
 
     margin: 0 0 18px 0 !important;
 
@@ -321,20 +315,23 @@ label {
         );
 
     box-shadow:
-        0 10px 28px rgba(79,70,229,0.16);
+        0 8px 25px rgba(79, 70, 229, 0.15);
 
     overflow: visible !important;
 }
 
 
 /* ============================================================
-   HERO TITLE
+   🚦 HERO TITLE
    ============================================================ */
 
 .hero-title {
+
     width: 100% !important;
 
-    font-size: 42px !important;
+    box-sizing: border-box !important;
+
+    font-size: 34px !important;
 
     line-height: 1.15 !important;
 
@@ -342,13 +339,19 @@ label {
 
     color: #ffffff !important;
 
-    margin: 0 0 8px 0 !important;
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    display: block !important;
 
     white-space: normal !important;
 
+    overflow: visible !important;
+
     word-break: normal !important;
 
-    overflow-wrap: break-word !important;
+    overflow-wrap: normal !important;
 }
 
 
@@ -357,40 +360,40 @@ label {
    ============================================================ */
 
 .hero-subtitle {
+
     width: 100% !important;
 
-    font-size: 16px !important;
+    box-sizing: border-box !important;
+
+    font-size: 15px !important;
 
     line-height: 1.4 !important;
 
     color: #ffffff !important;
 
-    margin: 0 0 10px 0 !important;
+    margin: 8px 0 0 0 !important;
+
+    display: block !important;
 
     white-space: normal !important;
 
-    overflow-wrap: break-word !important;
+    overflow: visible !important;
 }
 
 
 /* ============================================================
-   HERO BADGES
+   BADGES
    ============================================================ */
 
-.hero-badges {
-    width: 100% !important;
+.badge {
 
-    display: block !important;
-
-    margin-top: 8px !important;
-}
-
-.hero .badge {
     display: inline-block !important;
 
-    padding: 6px 10px !important;
+    padding: 5px 9px !important;
 
-    margin: 3px 3px 3px 0 !important;
+    margin-right: 4px !important;
+
+    margin-bottom: 5px !important;
 
     border-radius: 999px !important;
 
@@ -398,19 +401,49 @@ label {
 
     color: #1e40af !important;
 
+    border: 1px solid rgba(255,255,255,0.7) !important;
+
     font-size: 12px !important;
 
-    font-weight: 800 !important;
+    font-weight: 700 !important;
 
     white-space: nowrap !important;
-
-    box-sizing: border-box !important;
 }
+
+
 /* ============================================================
    CARDS
    ============================================================ */
 
 .card {
+
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 18px !important;
+
+    margin-bottom: 15px !important;
+
+    border-radius: 17px !important;
+
+    background: rgba(255,255,255,0.97) !important;
+
+    border: 1px solid #dbe7f3 !important;
+
+    box-shadow:
+        0 5px 18px rgba(30,64,175,0.07);
+
+    overflow: visible !important;
+}
+
+
+/* ============================================================
+   RESULT CARD
+   ============================================================ */
+
+.result-card {
+
     width: 100% !important;
 
     box-sizing: border-box !important;
@@ -421,49 +454,22 @@ label {
 
     border-radius: 18px !important;
 
-    background: rgba(255,255,255,0.96) !important;
-
-    border: 1px solid #dbe7f3 !important;
-
-    box-shadow:
-        0 6px 20px rgba(30,64,175,0.07) !important;
-
-    overflow: hidden !important;
-}
-
-
-/* ============================================================
-   RESULT CARD
-   ============================================================ */
-
-.result-card {
-    width: 100% !important;
-
-    box-sizing: border-box !important;
-
-    padding: 22px !important;
-
-    margin-bottom: 18px !important;
-
-    border-radius: 20px !important;
-
     background:
         linear-gradient(
             135deg,
             #e0f2fe,
             #ede9fe
-        ) !important;
+        );
 
     border: 1px solid #c7d8f0 !important;
 
-    box-shadow:
-        0 8px 24px rgba(30,64,175,0.08) !important;
-
-    overflow: hidden !important;
+    overflow: visible !important;
 }
 
+
 .sign-name {
-    font-size: 29px !important;
+
+    font-size: 25px !important;
 
     line-height: 1.2 !important;
 
@@ -471,11 +477,15 @@ label {
 
     color: #172033 !important;
 
+    word-break: normal !important;
+
     overflow-wrap: break-word !important;
 }
 
+
 .confidence {
-    font-size: 38px !important;
+
+    font-size: 34px !important;
 
     line-height: 1.1 !important;
 
@@ -490,15 +500,16 @@ label {
    ============================================================ */
 
 .stButton > button {
+
     width: 100% !important;
 
-    min-height: 44px !important;
+    min-height: 42px !important;
 
-    border: none !important;
+    padding: 9px 14px !important;
 
     border-radius: 11px !important;
 
-    padding: 9px 16px !important;
+    border: none !important;
 
     background:
         linear-gradient(
@@ -506,25 +517,26 @@ label {
             #4f8cff,
             #6366f1,
             #8b5cf6
-        ) !important;
+        );
 
     color: white !important;
 
-    font-size: 15px !important;
+    font-size: 14px !important;
 
     font-weight: 800 !important;
 
     box-shadow:
-        0 5px 14px rgba(79,70,229,0.18) !important;
+        0 5px 14px rgba(79,70,229,0.18);
 }
 
 
 /* ============================================================
-   INPUT
+   TEXT INPUT
    ============================================================ */
 
 .stTextInput input {
-    background: white !important;
+
+    background: #ffffff !important;
 
     color: #172033 !important;
 
@@ -533,8 +545,6 @@ label {
     border-radius: 11px !important;
 
     min-height: 42px !important;
-
-    padding: 9px 12px !important;
 
     font-size: 15px !important;
 }
@@ -545,11 +555,12 @@ label {
 
 
 /* ============================================================
-   SELECTBOX
+   SELECT BOX
    ============================================================ */
 
 div[data-baseweb="select"] > div {
-    background: white !important;
+
+    background: #ffffff !important;
 
     color: #172033 !important;
 
@@ -568,13 +579,14 @@ div[data-baseweb="select"] span {
    ============================================================ */
 
 section[data-testid="stFileUploaderDropzone"] {
-    background: white !important;
+
+    background: #ffffff !important;
 
     border: 2px dashed #8bb8e8 !important;
 
-    border-radius: 16px !important;
+    border-radius: 15px !important;
 
-    padding: 15px !important;
+    padding: 14px !important;
 }
 
 section[data-testid="stFileUploaderDropzone"] * {
@@ -587,16 +599,17 @@ section[data-testid="stFileUploaderDropzone"] * {
    ============================================================ */
 
 div[data-testid="stMetric"] {
-    background: rgba(255,255,255,0.96) !important;
+
+    background: rgba(255,255,255,0.97) !important;
 
     border: 1px solid #dbe5f0 !important;
 
-    border-radius: 15px !important;
+    border-radius: 14px !important;
 
-    padding: 13px !important;
+    padding: 12px !important;
 
     box-shadow:
-        0 5px 15px rgba(30,64,175,0.07) !important;
+        0 5px 15px rgba(30,64,175,0.07);
 }
 
 div[data-testid="stMetricLabel"] {
@@ -604,6 +617,7 @@ div[data-testid="stMetricLabel"] {
 }
 
 div[data-testid="stMetricValue"] {
+
     color: #172033 !important;
 
     font-weight: 900 !important;
@@ -615,12 +629,13 @@ div[data-testid="stMetricValue"] {
    ============================================================ */
 
 section[data-testid="stSidebar"] {
+
     background:
         linear-gradient(
             180deg,
             #ffffff 0%,
             #f5f9ff 100%
-        ) !important;
+        );
 
     border-right: 1px solid #dbe5f0 !important;
 }
@@ -635,11 +650,14 @@ section[data-testid="stSidebar"] * {
    ============================================================ */
 
 div[data-testid="stExpander"] {
-    background: white !important;
+
+    background: #ffffff !important;
 
     border: 1px solid #dbe5f0 !important;
 
     border-radius: 13px !important;
+
+    overflow: visible !important;
 }
 
 div[data-testid="stExpander"] * {
@@ -652,9 +670,8 @@ div[data-testid="stExpander"] * {
    ============================================================ */
 
 .footer {
-    width: 100% !important;
 
-    box-sizing: border-box !important;
+    width: 100% !important;
 
     text-align: center !important;
 
@@ -667,126 +684,156 @@ div[data-testid="stExpander"] * {
 
 
 /* ============================================================
-   MOBILE
+   MOBILE PHONE
    ============================================================ */
 
 @media (max-width: 600px) {
 
     .block-container {
-        width: 100% !important;
-        max-width: 100% !important;
 
-        padding-left: 9px !important;
-        padding-right: 9px !important;
+        padding-left: 0.65rem !important;
+
+        padding-right: 0.65rem !important;
+
         padding-top: 0.6rem !important;
     }
 
+
     .hero {
-        width: 100% !important;
-        max-width: 100% !important;
 
-        padding: 17px 13px !important;
+        padding: 18px 14px !important;
 
-        border-radius: 16px !important;
+        border-radius: 17px !important;
 
-        overflow: visible !important;
+        margin-bottom: 14px !important;
     }
 
-    .hero-title {
-        font-size: 26px !important;
 
-        line-height: 1.2 !important;
+    .hero-title {
+
+        font-size: 27px !important;
+
+        line-height: 1.15 !important;
 
         white-space: normal !important;
 
-        overflow-wrap: break-word !important;
+        overflow: visible !important;
+
+        word-break: normal !important;
     }
 
+
     .hero-subtitle {
+
         font-size: 13px !important;
 
         line-height: 1.35 !important;
+
+        white-space: normal !important;
     }
 
-    .hero .badge {
-        font-size: 10px !important;
-
-        padding: 4px 7px !important;
-
-        margin: 2px 2px 3px 0 !important;
-    }
 
     .card {
+
         padding: 15px !important;
 
         border-radius: 15px !important;
     }
 
+
     .result-card {
-        padding: 16px !important;
+
+        padding: 17px !important;
 
         border-radius: 16px !important;
     }
 
+
     .sign-name {
+
         font-size: 23px !important;
     }
 
+
     .confidence {
+
         font-size: 31px !important;
     }
+
+
+    .badge {
+
+        font-size: 11px !important;
+
+        padding: 5px 8px !important;
+    }
+
 }
+
+
 /* ============================================================
    VERY SMALL PHONE
    ============================================================ */
 
 @media (max-width: 400px) {
 
-    .block-container {
-        padding-left: 7px !important;
-        padding-right: 7px !important;
+    .hero {
+
+        padding: 16px 12px !important;
     }
 
-    .hero {
-        padding: 15px 11px !important;
-    }
 
     .hero-title {
-        font-size: 22px !important;
 
-        line-height: 1.2 !important;
+        font-size: 24px !important;
+
+        line-height: 1.15 !important;
     }
 
+
     .hero-subtitle {
+
         font-size: 12px !important;
     }
 
-    .hero .badge {
-        font-size: 9px !important;
 
-        padding: 4px 6px !important;
+    .badge {
+
+        font-size: 10px !important;
+
+        padding: 4px 7px !important;
     }
 
+
     .card {
+
         padding: 13px !important;
     }
 
-    .result-card {
-        padding: 14px !important;
-    }
+}
 
-    .sign-name {
-        font-size: 20px !important;
-    }
 
-    .confidence {
-        font-size: 28px !important;
-    }
+/* ============================================================
+   NO HORIZONTAL SCROLL
+   ============================================================ */
+
+html,
+body {
+
+    max-width: 100% !important;
+
+    overflow-x: hidden !important;
+}
+
+[data-testid="stAppViewContainer"] {
+
+    max-width: 100% !important;
+
+    overflow-x: hidden !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # ============================================================
 # SIDEBAR
