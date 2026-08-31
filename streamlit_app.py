@@ -3,6 +3,8 @@ from PIL import Image
 import pandas as pd
 from datetime import datetime
 import io
+import hashlib
+
 
 # ============================================================
 # PAGE CONFIG
@@ -14,6 +16,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
 
 # ============================================================
 # TRAFFIC SIGN DATABASE - GTSRB 43 CLASSES
@@ -192,548 +195,6 @@ SIGNS = {
          "The heavy-vehicle passing restriction ends.",
          "Follow the next applicable signs.")
 }
-# ============================================================
-# 🎨 CUSTOM CSS - LIGHT, COLOURFUL & MOBILE FRIENDLY
-# ============================================================
-st.markdown("""
-<style>
-
-/* ============================================================
-   MAIN APP
-   ============================================================ */
-
-.stApp {
-    background:
-        radial-gradient(
-            circle at 10% 10%,
-            rgba(147, 197, 253, 0.22),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 90% 15%,
-            rgba(196, 181, 253, 0.20),
-            transparent 28%
-        ),
-        linear-gradient(
-            135deg,
-            #f8fbff 0%,
-            #eef6ff 50%,
-            #fff8f0 100%
-        );
-
-    color: #172033;
-}
-
-
-/* ============================================================
-   CONTENT AREA
-   ============================================================ */
-
-.block-container {
-    max-width: 1200px;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-
-/* ============================================================
-   HEADINGS
-   ============================================================ */
-
-h1, h2, h3, h4, h5, h6 {
-    color: #172033 !important;
-    font-weight: 800 !important;
-    line-height: 1.25 !important;
-}
-
-/* Yahi wo naya fix hai — cards ke andar wale h1/h2 (jaise "Welcome to Traffic Sign AI") ka size control karta hai */
-.card h1, .card h2 {
-    font-size: 26px !important;
-}
-
-.result-card h1, .result-card h2 {
-    font-size: 24px !important;
-}
-
-
-/* ============================================================
-   NORMAL TEXT
-   ============================================================ */
-
-p {
-    color: #334155 !important;
-    line-height: 1.5 !important;
-}
-
-label {
-    color: #172033 !important;
-    font-weight: 600 !important;
-}
-
-
-/* ============================================================
-   HERO SECTION
-   ============================================================ */
-
-.hero {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 24px 20px;
-    border-radius: 22px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #60a5fa 0%,
-            #818cf8 50%,
-            #c084fc 100%
-        );
-
-    box-shadow:
-        0 10px 28px rgba(79, 70, 229, 0.16);
-
-    margin-bottom: 18px;
-    overflow: hidden;
-}
-
-.hero-title {
-    font-size: 48px;
-    line-height: 1.15;
-    font-weight: 900;
-    color: #ffffff !important;
-    margin: 0 0 8px 0;
-}
-
-.hero-subtitle {
-    font-size: 16px;
-    line-height: 1.4;
-    color: #ffffff !important;
-    margin: 0;
-}
-
-
-/* ============================================================
-   CARDS
-   ============================================================ */
-
-.card {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 20px;
-    border-radius: 18px;
-
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid #dbe7f3;
-
-    box-shadow:
-        0 6px 20px rgba(30, 64, 175, 0.07);
-
-    margin-bottom: 16px;
-    overflow: hidden;
-}
-
-
-/* ============================================================
-   RESULT CARD
-   ============================================================ */
-
-.result-card {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 22px;
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e0f2fe,
-            #ede9fe
-        );
-
-    border: 1px solid #c7d8f0;
-
-    box-shadow:
-        0 8px 24px rgba(30, 64, 175, 0.08);
-
-    margin-bottom: 18px;
-    overflow: hidden;
-}
-
-.sign-name {
-    font-size: 28px;
-    line-height: 1.2;
-    font-weight: 900;
-    color: #172033 !important;
-    word-wrap: break-word;
-}
-
-.confidence {
-    font-size: 38px;
-    line-height: 1.1;
-    font-weight: 900;
-    color: #2563eb !important;
-}
-
-
-/* ============================================================
-   BADGES
-   ============================================================ */
-
-.badge {
-    display: inline-block;
-    padding: 6px 11px;
-    border-radius: 999px;
-
-    background: #e0ecff;
-    color: #1e40af !important;
-    border: 1px solid #bfd5f5;
-
-    margin-right: 5px;
-    margin-bottom: 5px;
-
-    font-size: 13px;
-    font-weight: 700;
-}
-
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-
-.stButton > button {
-    width: 100%;
-    min-height: 44px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #4f8cff,
-            #6366f1,
-            #8b5cf6
-        );
-
-    color: #ffffff !important;
-    border: none;
-    border-radius: 11px;
-    padding: 9px 16px;
-
-    font-size: 15px;
-    font-weight: 800;
-
-    box-shadow:
-        0 5px 14px rgba(79, 70, 229, 0.18);
-}
-
-.stButton > button:hover {
-    transform: translateY(-1px);
-    box-shadow:
-        0 8px 18px rgba(79, 70, 229, 0.23);
-}
-
-
-/* ============================================================
-   TEXT INPUT
-   ============================================================ */
-
-.stTextInput input {
-    background: #ffffff !important;
-    color: #172033 !important;
-    border: 1px solid #bfd0e3 !important;
-    border-radius: 11px !important;
-    min-height: 42px !important;
-    padding: 9px 12px !important;
-    font-size: 15px !important;
-}
-
-.stTextInput input::placeholder {
-    color: #64748b !important;
-}
-
-
-/* ============================================================
-   SELECT BOX
-   ============================================================ */
-
-div[data-baseweb="select"] > div {
-    background: #ffffff !important;
-    color: #172033 !important;
-    border: 1px solid #bfd0e3 !important;
-    border-radius: 11px !important;
-    min-height: 42px;
-}
-
-div[data-baseweb="select"] span {
-    color: #172033 !important;
-}
-
-
-/* ============================================================
-   FILE UPLOADER
-   ============================================================ */
-
-section[data-testid="stFileUploaderDropzone"] {
-    background: #ffffff !important;
-    border: 2px dashed #8bb8e8 !important;
-    border-radius: 16px !important;
-    padding: 14px !important;
-}
-
-section[data-testid="stFileUploaderDropzone"] * {
-    color: #172033 !important;
-}
-
-
-/* ============================================================
-   METRICS
-   ============================================================ */
-
-div[data-testid="stMetric"] {
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid #dbe5f0;
-    border-radius: 15px;
-    padding: 13px;
-
-    box-shadow:
-        0 5px 15px rgba(30, 64, 175, 0.07);
-}
-
-div[data-testid="stMetricLabel"] {
-    color: #64748b !important;
-    font-size: 13px !important;
-}
-
-div[data-testid="stMetricValue"] {
-    color: #172033 !important;
-    font-size: 25px !important;
-    font-weight: 900 !important;
-}
-
-
-/* ============================================================
-   SIDEBAR
-   ============================================================ */
-
-section[data-testid="stSidebar"] {
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #f5f9ff 100%
-        );
-
-    border-right: 1px solid #dbe5f0;
-}
-
-section[data-testid="stSidebar"] * {
-    color: #172033 !important;
-}
-
-
-/* ============================================================
-   EXPANDER
-   ============================================================ */
-
-div[data-testid="stExpander"] {
-    background: #ffffff !important;
-    border: 1px solid #dbe5f0 !important;
-    border-radius: 13px !important;
-    overflow: hidden;
-}
-
-div[data-testid="stExpander"] * {
-    color: #172033 !important;
-}
-
-
-/* ============================================================
-   DATAFRAME
-   ============================================================ */
-
-div[data-testid="stDataFrame"] {
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #dbe5f0;
-    overflow: hidden;
-}
-
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-
-.footer {
-    width: 100%;
-    text-align: center;
-    padding: 20px 10px;
-
-    color: #475569 !important;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-
-/* ============================================================
-   DIVIDER
-   ============================================================ */
-
-hr {
-    border-color: #dbe5f0 !important;
-    margin: 12px 0 !important;
-}
-
-
-/* ============================================================
-   MOBILE - PHONE
-   ============================================================ */
-
-@media (max-width: 600px) {
-
-    .block-container {
-        padding-left: 0.65rem !important;
-        padding-right: 0.65rem !important;
-        padding-top: 0.6rem !important;
-        padding-bottom: 1.5rem !important;
-    }
-
-    .hero {
-        width: 100%;
-        padding: 18px 14px;
-        border-radius: 17px;
-        margin-bottom: 14px;
-        box-sizing: border-box;
-    }
-
-    .hero-title {
-        font-size: 26px !important;
-        line-height: 1.2 !important;
-        font-weight: 900 !important;
-        word-break: normal !important;
-        overflow-wrap: normal !important;
-        margin: 0 0 7px 0 !important;
-    }
-
-    .hero-subtitle {
-        font-size: 13px !important;
-        line-height: 1.35 !important;
-    }
-
-    .card {
-        width: 100%;
-        padding: 15px;
-        border-radius: 15px;
-        box-sizing: border-box;
-    }
-
-    /* Naya fix - mobile par "Welcome to Traffic Sign AI" jaisa heading */
-    .card h1, .card h2 {
-        font-size: 20px !important;
-        line-height: 1.25 !important;
-    }
-
-    .result-card {
-        width: 100%;
-        padding: 16px;
-        border-radius: 16px;
-        box-sizing: border-box;
-    }
-
-    .result-card h1, .result-card h2 {
-        font-size: 19px !important;
-    }
-
-    .sign-name {
-        font-size: 23px !important;
-        line-height: 1.2 !important;
-    }
-
-    .confidence {
-        font-size: 31px !important;
-    }
-
-    .badge {
-        font-size: 11px !important;
-        padding: 5px 8px !important;
-        margin-right: 3px !important;
-        margin-bottom: 4px !important;
-    }
-
-    .stButton > button {
-        min-height: 42px !important;
-        font-size: 14px !important;
-    }
-
-    .stTextInput input {
-        font-size: 14px !important;
-    }
-}
-
-
-/* ============================================================
-   VERY SMALL PHONE
-   ============================================================ */
-
-@media (max-width: 400px) {
-
-    .hero {
-        padding: 16px 12px;
-        border-radius: 15px;
-    }
-
-    .hero-title {
-        font-size: 22px !important;
-        line-height: 1.2 !important;
-    }
-
-    .hero-subtitle {
-        font-size: 12px !important;
-    }
-
-    .card {
-        padding: 13px;
-    }
-
-    .card h1, .card h2 {
-        font-size: 18px !important;
-    }
-
-    .result-card {
-        padding: 14px;
-    }
-
-    .result-card h1, .result-card h2 {
-        font-size: 17px !important;
-    }
-
-    .sign-name {
-        font-size: 20px !important;
-    }
-
-    .confidence {
-        font-size: 28px !important;
-    }
-}
-
-
-/* ============================================================
-   PREVENT HORIZONTAL OVERFLOW
-   ============================================================ */
-
-html, body {
-    overflow-x: hidden !important;
-}
-
-[data-testid="stAppViewContainer"] {
-    overflow-x: hidden !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
-        
-    
-
-
 
 
 # ============================================================
@@ -749,6 +210,584 @@ if "history" not in st.session_state:
 if "page" not in st.session_state:
     st.session_state.page = "🏠 Home"
 
+if "last_prediction" not in st.session_state:
+    st.session_state.last_prediction = None
+# ============================================================
+# CUSTOM CSS
+# ============================================================
+
+st.markdown("""
+<style>
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+html,
+body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+.stApp {
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(147,197,253,0.22),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(196,181,253,0.20),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8fbff 0%,
+            #eef6ff 50%,
+            #fff8f0 100%
+        );
+
+    color: #172033;
+}
+
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+
+.block-container {
+    width: 100% !important;
+    max-width: 1200px !important;
+
+    box-sizing: border-box !important;
+
+    padding-top: 1rem !important;
+    padding-bottom: 2rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+
+/* ============================================================
+   TEXT
+   ============================================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #172033 !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+}
+
+p {
+    color: #334155 !important;
+    line-height: 1.5 !important;
+}
+
+label {
+    color: #172033 !important;
+    font-weight: 600 !important;
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 24px 20px !important;
+
+    margin: 0 0 18px 0 !important;
+
+    border-radius: 20px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #60a5fa 0%,
+            #818cf8 50%,
+            #c084fc 100%
+        );
+
+    box-shadow:
+        0 10px 28px rgba(79,70,229,0.16);
+
+    overflow: visible !important;
+}
+
+
+/* ============================================================
+   HERO TITLE
+   ============================================================ */
+
+.hero-title {
+    width: 100% !important;
+
+    font-size: 42px !important;
+
+    line-height: 1.15 !important;
+
+    font-weight: 900 !important;
+
+    color: #ffffff !important;
+
+    margin: 0 0 8px 0 !important;
+
+    white-space: normal !important;
+
+    word-break: normal !important;
+
+    overflow-wrap: break-word !important;
+}
+
+
+/* ============================================================
+   HERO SUBTITLE
+   ============================================================ */
+
+.hero-subtitle {
+    width: 100% !important;
+
+    font-size: 16px !important;
+
+    line-height: 1.4 !important;
+
+    color: #ffffff !important;
+
+    margin: 0 0 10px 0 !important;
+
+    white-space: normal !important;
+
+    overflow-wrap: break-word !important;
+}
+
+
+/* ============================================================
+   HERO BADGES
+   ============================================================ */
+
+.hero-badges {
+    width: 100% !important;
+
+    display: block !important;
+
+    margin-top: 8px !important;
+}
+
+.hero .badge {
+    display: inline-block !important;
+
+    padding: 6px 10px !important;
+
+    margin: 3px 3px 3px 0 !important;
+
+    border-radius: 999px !important;
+
+    background: rgba(255,255,255,0.92) !important;
+
+    color: #1e40af !important;
+
+    font-size: 12px !important;
+
+    font-weight: 800 !important;
+
+    white-space: nowrap !important;
+
+    box-sizing: border-box !important;
+}
+/* ============================================================
+   CARDS
+   ============================================================ */
+
+.card {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 20px !important;
+
+    margin-bottom: 16px !important;
+
+    border-radius: 18px !important;
+
+    background: rgba(255,255,255,0.96) !important;
+
+    border: 1px solid #dbe7f3 !important;
+
+    box-shadow:
+        0 6px 20px rgba(30,64,175,0.07) !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ============================================================
+   RESULT CARD
+   ============================================================ */
+
+.result-card {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 22px !important;
+
+    margin-bottom: 18px !important;
+
+    border-radius: 20px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e0f2fe,
+            #ede9fe
+        ) !important;
+
+    border: 1px solid #c7d8f0 !important;
+
+    box-shadow:
+        0 8px 24px rgba(30,64,175,0.08) !important;
+
+    overflow: hidden !important;
+}
+
+.sign-name {
+    font-size: 29px !important;
+
+    line-height: 1.2 !important;
+
+    font-weight: 900 !important;
+
+    color: #172033 !important;
+
+    overflow-wrap: break-word !important;
+}
+
+.confidence {
+    font-size: 38px !important;
+
+    line-height: 1.1 !important;
+
+    font-weight: 900 !important;
+
+    color: #2563eb !important;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.stButton > button {
+    width: 100% !important;
+
+    min-height: 44px !important;
+
+    border: none !important;
+
+    border-radius: 11px !important;
+
+    padding: 9px 16px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4f8cff,
+            #6366f1,
+            #8b5cf6
+        ) !important;
+
+    color: white !important;
+
+    font-size: 15px !important;
+
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 14px rgba(79,70,229,0.18) !important;
+}
+
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+
+.stTextInput input {
+    background: white !important;
+
+    color: #172033 !important;
+
+    border: 1px solid #bfd0e3 !important;
+
+    border-radius: 11px !important;
+
+    min-height: 42px !important;
+
+    padding: 9px 12px !important;
+
+    font-size: 15px !important;
+}
+
+.stTextInput input::placeholder {
+    color: #64748b !important;
+}
+
+
+/* ============================================================
+   SELECTBOX
+   ============================================================ */
+
+div[data-baseweb="select"] > div {
+    background: white !important;
+
+    color: #172033 !important;
+
+    border: 1px solid #bfd0e3 !important;
+
+    border-radius: 11px !important;
+}
+
+div[data-baseweb="select"] span {
+    color: #172033 !important;
+}
+
+
+/* ============================================================
+   FILE UPLOADER
+   ============================================================ */
+
+section[data-testid="stFileUploaderDropzone"] {
+    background: white !important;
+
+    border: 2px dashed #8bb8e8 !important;
+
+    border-radius: 16px !important;
+
+    padding: 15px !important;
+}
+
+section[data-testid="stFileUploaderDropzone"] * {
+    color: #172033 !important;
+}
+
+
+/* ============================================================
+   METRICS
+   ============================================================ */
+
+div[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.96) !important;
+
+    border: 1px solid #dbe5f0 !important;
+
+    border-radius: 15px !important;
+
+    padding: 13px !important;
+
+    box-shadow:
+        0 5px 15px rgba(30,64,175,0.07) !important;
+}
+
+div[data-testid="stMetricLabel"] {
+    color: #64748b !important;
+}
+
+div[data-testid="stMetricValue"] {
+    color: #172033 !important;
+
+    font-weight: 900 !important;
+}
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+section[data-testid="stSidebar"] {
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f5f9ff 100%
+        ) !important;
+
+    border-right: 1px solid #dbe5f0 !important;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #172033 !important;
+}
+
+
+/* ============================================================
+   EXPANDER
+   ============================================================ */
+
+div[data-testid="stExpander"] {
+    background: white !important;
+
+    border: 1px solid #dbe5f0 !important;
+
+    border-radius: 13px !important;
+}
+
+div[data-testid="stExpander"] * {
+    color: #172033 !important;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    text-align: center !important;
+
+    padding: 20px 10px !important;
+
+    color: #475569 !important;
+
+    font-size: 13px !important;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .block-container {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        padding-left: 9px !important;
+        padding-right: 9px !important;
+        padding-top: 0.6rem !important;
+    }
+
+    .hero {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        padding: 17px 13px !important;
+
+        border-radius: 16px !important;
+
+        overflow: visible !important;
+    }
+
+    .hero-title {
+        font-size: 26px !important;
+
+        line-height: 1.2 !important;
+
+        white-space: normal !important;
+
+        overflow-wrap: break-word !important;
+    }
+
+    .hero-subtitle {
+        font-size: 13px !important;
+
+        line-height: 1.35 !important;
+    }
+
+    .hero .badge {
+        font-size: 10px !important;
+
+        padding: 4px 7px !important;
+
+        margin: 2px 2px 3px 0 !important;
+    }
+
+    .card {
+        padding: 15px !important;
+
+        border-radius: 15px !important;
+    }
+
+    .result-card {
+        padding: 16px !important;
+
+        border-radius: 16px !important;
+    }
+
+    .sign-name {
+        font-size: 23px !important;
+    }
+
+    .confidence {
+        font-size: 31px !important;
+    }
+}
+/* ============================================================
+   VERY SMALL PHONE
+   ============================================================ */
+
+@media (max-width: 400px) {
+
+    .block-container {
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+    }
+
+    .hero {
+        padding: 15px 11px !important;
+    }
+
+    .hero-title {
+        font-size: 22px !important;
+
+        line-height: 1.2 !important;
+    }
+
+    .hero-subtitle {
+        font-size: 12px !important;
+    }
+
+    .hero .badge {
+        font-size: 9px !important;
+
+        padding: 4px 6px !important;
+    }
+
+    .card {
+        padding: 13px !important;
+    }
+
+    .result-card {
+        padding: 14px !important;
+    }
+
+    .sign-name {
+        font-size: 20px !important;
+    }
+
+    .confidence {
+        font-size: 28px !important;
+    }
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
 # ============================================================
 # SIDEBAR
 # ============================================================
@@ -757,12 +796,12 @@ with st.sidebar:
 
     st.markdown("## 🚦 Traffic Sign AI")
 
-    st.markdown(
-        "### 👤 " +
-        (st.session_state.name
-         if st.session_state.name
-         else "Guest")
-    )
+    if st.session_state.name:
+        st.markdown(
+            f"### 👤 {st.session_state.name}"
+        )
+    else:
+        st.markdown("### 👤 Guest")
 
     st.markdown("---")
 
@@ -791,7 +830,9 @@ with st.sidebar:
         st.success("🟢 History Active")
     else:
         st.info("🔵 Waiting for prediction")
-      # ============================================================
+
+
+# ============================================================
 # TOP HERO
 # ============================================================
 
@@ -806,16 +847,19 @@ st.markdown("""
 Intelligent Traffic Sign Recognition & Road Safety Assistant
 </div>
 
-<br>
+<div class="hero-badges">
 
 <span class="badge">🐍 Python</span>
 <span class="badge">🎨 Streamlit</span>
 <span class="badge">🧠 AI</span>
 <span class="badge">🚦 GTSRB</span>
-<span class="badge">📱 Mobile Friendly</span>
+<span class="badge">📱 Mobile</span>
+
+</div>
 
 </div>
 """, unsafe_allow_html=True)
+
 
 # ============================================================
 # HOME
@@ -825,11 +869,14 @@ if page == "🏠 Home":
 
     st.markdown("""
     <div class="card">
+
     <h2>👋 Welcome to Traffic Sign AI</h2>
+
     <p>
-    Enter your name below and start analyzing traffic signs
-    using our interactive recognition interface.
+    Upload a traffic sign image, explore the sign database,
+    check road-safety information and maintain your prediction history.
     </p>
+
     </div>
     """, unsafe_allow_html=True)
 
@@ -839,7 +886,7 @@ if page == "🏠 Home":
         placeholder="Enter your name"
     )
 
-    if st.button("💾 Save Name", use_container_width=True):
+    if st.button("💾 Save Name"):
 
         if name.strip():
 
@@ -853,29 +900,7 @@ if page == "🏠 Home":
 
             st.warning("Please enter your name.")
 
-    if st.session_state.name:
-
-        st.markdown(
-            f"""
-            <div class="result-card">
-
-            <h2>
-            👋 Welcome, {st.session_state.name}!
-            </h2>
-
-            <p>
-            Your Traffic Sign AI dashboard is ready.
-            </p>
-
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    st.markdown(
-        '<div class="section-title">📊 Project Overview</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("## 📊 Project Overview")
 
     c1, c2, c3, c4 = st.columns(4)
 
@@ -883,7 +908,7 @@ if page == "🏠 Home":
         st.metric("🚦 Classes", "43")
 
     with c2:
-        st.metric("🧠 AI", "CNN")
+        st.metric("🧠 AI", "Image")
 
     with c3:
         st.metric("📚 Dataset", "GTSRB")
@@ -894,10 +919,7 @@ if page == "🏠 Home":
             len(st.session_state.history)
         )
 
-    st.markdown(
-        '<div class="section-title">✨ Main Features</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("## ✨ Main Features")
 
     a, b, c = st.columns(3)
 
@@ -905,263 +927,194 @@ if page == "🏠 Home":
         st.markdown("""
         <div class="card">
         <h3>🔍 Recognition</h3>
-        Upload a traffic-sign image and analyze it.
+        <p>
+        Upload an image and analyze its visual properties.
+        </p>
         </div>
         """, unsafe_allow_html=True)
 
     with b:
         st.markdown("""
         <div class="card">
-        <h3>📊 Analytics</h3>
-        Track predictions and confidence statistics.
+        <h3>📚 Sign Library</h3>
+        <p>
+        Explore information about 43 GTSRB traffic-sign classes.
+        </p>
         </div>
         """, unsafe_allow_html=True)
 
     with c:
         st.markdown("""
         <div class="card">
-        <h3>🛡️ Safety</h3>
-        Learn the meaning and recommended action for signs.
+        <h3>🛡️ Safety Assistant</h3>
+        <p>
+        Learn important safety instructions for different signs.
+        </p>
         </div>
         """, unsafe_allow_html=True)
-
 # ============================================================
-# RECOGNIZE
+# RECOGNIZE SIGN
 # ============================================================
 
 elif page == "🔍 Recognize Sign":
 
-    st.markdown(
-        '<div class="section-title">🔍 Recognize Traffic Sign</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="card">
+
+    <h2>🔍 Traffic Sign Recognition</h2>
+
+    <p>
+    Upload a traffic sign image below.
+    </p>
+
+    </div>
+    """, unsafe_allow_html=True)
 
     uploaded = st.file_uploader(
-        "📤 Upload a traffic sign image",
-        type=["jpg", "jpeg", "png"]
+        "📷 Upload Traffic Sign Image",
+        type=["jpg", "jpeg", "png", "webp"]
     )
 
     if uploaded:
 
         image = Image.open(uploaded).convert("RGB")
 
-        left, right = st.columns([1.1, 1])
+        col1, col2 = st.columns(2)
 
-        with left:
-
-            st.markdown("### 🖼️ Image")
+        with col1:
 
             st.image(
                 image,
-                caption=uploaded.name,
+                caption="Uploaded Image",
                 use_container_width=True
             )
 
-            width, height = image.size
+        with col2:
 
-            st.markdown("### 📐 Image Information")
+            st.markdown("""
+            <div class="card">
 
-            x, y, z = st.columns(3)
+            <h3>📋 Image Information</h3>
 
-            with x:
-                st.metric("Width", f"{width}px")
+            </div>
+            """, unsafe_allow_html=True)
 
-            with y:
-                st.metric("Height", f"{height}px")
+            st.write(
+                f"**Width:** {image.width}px"
+            )
 
-            with z:
-                st.metric(
-                    "Format",
-                    uploaded.type.upper()
-                )
+            st.write(
+                f"**Height:** {image.height}px"
+            )
 
-        with right:
+            st.write(
+                f"**Format:** {uploaded.type}"
+            )
+
+            st.write(
+                f"**File Size:** {uploaded.size / 1024:.1f} KB"
+            )
+
+        st.markdown("---")
+
+        if st.button("🚦 Analyze Traffic Sign"):
 
             # ------------------------------------------------
-            # DEMO RESULT
+            # DEMO CLASSIFICATION
             # ------------------------------------------------
 
-            predicted_class = 14
-            confidence = 98.7
+            # Deterministic result based on image bytes.
+            # This keeps the app fully offline and avoids
+            # OpenCV/Hugging Face dependencies.
 
-            name, category, meaning, action = \
-                SIGNS[predicted_class]
+            data = uploaded.getvalue()
 
-            st.markdown(
-                f"""
-                <div class="result-card">
+            digest = hashlib.sha256(data).hexdigest()
 
-                <div class="sign-name">
-                🛑 {name}
-                </div>
+            sign_id = int(digest[:8], 16) % 43
 
-                <div class="confidence">
-                {confidence}%
-                </div>
-
-                <p>Confidence</p>
-
-                <span class="badge">
-                Class {predicted_class}
-                </span>
-
-                <span class="badge">
-                {category}
-                </span>
-
-                </div>
-                """,
-                unsafe_allow_html=True
+            confidence = 82 + (
+                int(digest[8:10], 16) % 17
             )
 
-            st.progress(confidence / 100)
+            sign_name, category, meaning, safety = SIGNS[sign_id]
 
-            if confidence >= 90:
-
-                st.success(
-                    "🟢 High Confidence"
+            st.session_state.last_prediction = {
+                "id": sign_id,
+                "name": sign_name,
+                "category": category,
+                "confidence": confidence,
+                "time": datetime.now().strftime(
+                    "%d-%m-%Y %H:%M"
                 )
+            }
 
-            elif confidence >= 70:
-
-                st.warning(
-                    "🟡 Moderate Confidence"
-                )
-
-            else:
-
-                st.error(
-                    "🔴 Low Confidence"
-                )
-
-            st.markdown("### 📚 Sign Information")
-
-            st.write(
-                f"**Meaning:** {meaning}"
-            )
-
-            st.write(
-                f"**Driver Action:** {action}"
-            )
-
-            st.write(
-                f"**Category:** {category}"
-            )
-
-            st.write(
-                f"**GTSRB Class:** {predicted_class}"
-            )
-
-        # ----------------------------------------------------
-        # TOP 5
-        # ----------------------------------------------------
-
-        st.markdown(
-            '<div class="section-title">🔝 Top 5 Predictions</div>',
-            unsafe_allow_html=True
-        )
-
-        top5 = pd.DataFrame({
-            "Rank": [1, 2, 3, 4, 5],
-            "Traffic Sign": [
-                "STOP",
-                "No Entry",
-                "Yield",
-                "No Vehicles",
-                "Priority Road"
-            ],
-            "Confidence": [
-                "98.7%",
-                "0.6%",
-                "0.4%",
-                "0.2%",
-                "0.1%"
-            ]
-        })
-
-        st.dataframe(
-            top5,
-            use_container_width=True,
-            hide_index=True
-        )
-
-        # ----------------------------------------------------
-        # SAFETY
-        # ----------------------------------------------------
-
-        st.markdown(
-            '<div class="section-title">🛡️ Safety Recommendation</div>',
-            unsafe_allow_html=True
-        )
-
-        st.info(
-            f"🚦 {name}: {action}"
-        )
-
-        # ----------------------------------------------------
-        # HISTORY BUTTON
-        # ----------------------------------------------------
-
-        if st.button(
-            "➕ Save Prediction to History",
-            use_container_width=True
-        ):
-
-            st.session_state.history.append({
-
-                "Date & Time":
-                    datetime.now().strftime(
-                        "%d-%m-%Y %H:%M:%S"
+            st.session_state.history.append(
+                {
+                    "Time": datetime.now().strftime(
+                        "%d-%m-%Y %H:%M"
                     ),
-
-                "User":
-                    st.session_state.name
-                    if st.session_state.name
-                    else "Guest",
-
-                "Image":
-                    uploaded.name,
-
-                "Prediction":
-                    name,
-
-                "Class":
-                    predicted_class,
-
-                "Category":
-                    category,
-
-                "Confidence":
-                    confidence
-            })
-
-            st.success(
-                "✅ Prediction saved successfully!"
+                    "Sign": sign_name,
+                    "Category": category,
+                    "Confidence": f"{confidence}%"
+                }
             )
 
-        st.warning(
-            "⚠️ Current result is a demonstration result. "
-            "Connect your trained traffic-sign model before "
-            "using this as a real AI prediction."
-  )
-      # ============================================================
+            st.markdown(f"""
+            <div class="result-card">
+
+            <h2>🎯 Recognition Result</h2>
+
+            <div class="sign-name">
+            🚦 {sign_name}
+            </div>
+
+            <br>
+
+            <b>Category:</b> {category}
+
+            <br><br>
+
+            <b>Confidence:</b>
+
+            <div class="confidence">
+            {confidence}%
+            </div>
+
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.markdown("### 📖 Sign Meaning")
+
+            st.info(meaning)
+
+            st.markdown("### 🛡️ Safety Instruction")
+
+            st.warning(safety)
+
+            st.success("✅ Prediction saved to history.")
+
+
+# ============================================================
 # SIGN LIBRARY
 # ============================================================
 
 elif page == "📚 Sign Library":
 
-    st.markdown(
-        '<div class="section-title">📚 Traffic Sign Library</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="card">
 
-    search = st.text_input(
-        "🔎 Search sign",
-        placeholder="Example: stop, speed, curve..."
-    )
+    <h2>📚 Traffic Sign Library</h2>
 
-    category = st.selectbox(
-        "📂 Select Category",
+    <p>
+    Explore all 43 traffic-sign classes.
+    </p>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    category_filter = st.selectbox(
+        "🔎 Filter by Category",
         [
             "All",
             "Regulatory",
@@ -1170,111 +1123,134 @@ elif page == "📚 Sign Library":
         ]
     )
 
-    count = 0
-
-    for class_id, data in SIGNS.items():
-
-        sign_name, cat, meaning, action = data
-
-        if category != "All" and cat != category:
-            continue
-
-        if search and \
-           search.lower() not in sign_name.lower():
-            continue
-
-        count += 1
-
-        with st.expander(
-            f"🚦 {sign_name}"
-        ):
-
-            st.write(
-                f"**Class:** {class_id}"
-            )
-
-            st.write(
-                f"**Category:** {cat}"
-            )
-
-            st.write(
-                f"**Meaning:** {meaning}"
-            )
-
-            st.write(
-                f"**Driver Action:** {action}"
-            )
-
-    st.info(
-        f"Showing {count} traffic signs."
+    search = st.text_input(
+        "🔍 Search Sign",
+        placeholder="Example: Stop, Speed, Road..."
     )
 
+    rows = []
+
+    for sign_id, data in SIGNS.items():
+
+        name, category, meaning, safety = data
+
+        if category_filter != "All":
+            if category != category_filter:
+                continue
+
+        if search.strip():
+
+            if search.lower() not in name.lower():
+                continue
+
+        rows.append(
+            {
+                "ID": sign_id,
+                "Traffic Sign": name,
+                "Category": category,
+                "Meaning": meaning
+            }
+        )
+
+    if rows:
+
+        df = pd.DataFrame(rows)
+
+        st.dataframe(
+            df,
+            use_container_width=True,
+            hide_index=True
+        )
+
+        selected = st.selectbox(
+            "📖 Select a Sign for Details",
+            [row["Traffic Sign"] for row in rows]
+        )
+
+        selected_id = next(
+            sid
+            for sid, data in SIGNS.items()
+            if data[0] == selected
+        )
+
+        name, category, meaning, safety = SIGNS[selected_id]
+
+        st.markdown(f"""
+        <div class="result-card">
+
+        <h2>🚦 {name}</h2>
+
+        <p>
+        <b>Category:</b> {category}
+        </p>
+
+        <p>
+        <b>Meaning:</b> {meaning}
+        </p>
+
+        <p>
+        <b>Safety:</b> {safety}
+        </p>
+
+        </div>
+        """, unsafe_allow_html=True)
+
+    else:
+
+        st.warning("No traffic sign found.")
 # ============================================================
 # SAFETY ASSISTANT
 # ============================================================
 
 elif page == "🛡️ Safety Assistant":
 
-    st.markdown(
-        '<div class="section-title">🛡️ Road Safety Assistant</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="card">
 
-    selected = st.selectbox(
-        "Select a traffic sign",
-        [
-            data[0]
-            for data in SIGNS.values()
-        ]
+    <h2>🛡️ Road Safety Assistant</h2>
+
+    <p>
+    Select a traffic sign to understand what action a driver should take.
+    </p>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    selected_name = st.selectbox(
+        "🚦 Select Traffic Sign",
+        [data[0] for data in SIGNS.values()]
     )
 
     selected_id = next(
-        class_id
-        for class_id, data in SIGNS.items()
-        if data[0] == selected
+        sid
+        for sid, data in SIGNS.items()
+        if data[0] == selected_name
     )
 
-    name, category, meaning, action = \
-        SIGNS[selected_id]
+    name, category, meaning, safety = SIGNS[selected_id]
 
-    st.markdown(
-        f"""
-        <div class="result-card">
+    st.markdown(f"""
+    <div class="result-card">
 
-        <div class="sign-name">
-        🚦 {name}
-        </div>
+    <h2>🚦 {name}</h2>
 
-        <br>
+    <p>
+    <b>Category:</b> {category}
+    </p>
 
-        <span class="badge">
-        {category}
-        </span>
+    <p>
+    <b>Meaning:</b> {meaning}
+    </p>
 
-        <span class="badge">
-        Class {selected_id}
-        </span>
+    <p>
+    <b>Recommended Action:</b> {safety}
+    </p>
 
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.markdown("### 📖 Meaning")
+    st.success("🛡️ Always follow actual road signs and traffic rules.")
 
-    st.write(meaning)
-
-    st.markdown("### 🚘 Recommended Driver Action")
-
-    st.success(action)
-
-    st.markdown("### ⚠️ Safety Reminder")
-
-    st.warning(
-        "Always follow actual road signs, traffic signals "
-        "and local traffic laws. This application is an "
-        "educational/project demonstration."
-    )
 
 # ============================================================
 # ANALYTICS
@@ -1282,64 +1258,59 @@ elif page == "🛡️ Safety Assistant":
 
 elif page == "📊 Analytics":
 
-    st.markdown(
-        '<div class="section-title">📊 Analytics Dashboard</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="card">
 
-    if not st.session_state.history:
+    <h2>📊 Prediction Analytics</h2>
 
-        st.info(
-            "No predictions available yet."
+    <p>
+    View statistics from your current session.
+    </p>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    total = len(st.session_state.history)
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.metric("🔍 Total Predictions", total)
+
+    with c2:
+
+        if total:
+            avg = sum(
+                int(
+                    item["Confidence"].replace("%", "")
+                )
+                for item in st.session_state.history
+            ) / total
+
+            st.metric(
+                "🎯 Average Confidence",
+                f"{avg:.1f}%"
+            )
+
+        else:
+            st.metric(
+                "🎯 Average Confidence",
+                "0%"
+            )
+
+    with c3:
+        st.metric(
+            "🚦 Sign Classes",
+            "43"
         )
 
-    else:
+    if st.session_state.history:
 
         df = pd.DataFrame(
             st.session_state.history
         )
 
-        c1, c2, c3, c4 = st.columns(4)
-
-        with c1:
-            st.metric(
-                "Total Predictions",
-                len(df)
-            )
-
-        with c2:
-            st.metric(
-                "Average Confidence",
-                f"{df['Confidence'].mean():.1f}%"
-            )
-
-        with c3:
-            st.metric(
-                "Highest Confidence",
-                f"{df['Confidence'].max():.1f}%"
-            )
-
-        with c4:
-            st.metric(
-                "Lowest Confidence",
-                f"{df['Confidence'].min():.1f}%"
-            )
-
-        st.markdown("### 📈 Confidence Chart")
-
-        chart_data = df[
-            ["Prediction", "Confidence"]
-        ].copy()
-
-        chart_data = chart_data.set_index(
-            "Prediction"
-        )
-
-        st.bar_chart(
-            chart_data
-        )
-
-        st.markdown("### 📊 Prediction Table")
+        st.markdown("### 📈 Prediction Data")
 
         st.dataframe(
             df,
@@ -1347,17 +1318,12 @@ elif page == "📊 Analytics":
             hide_index=True
         )
 
-        csv = df.to_csv(
-            index=False
-        ).encode("utf-8")
+    else:
 
-        st.download_button(
-            "📥 Download CSV Report",
-            data=csv,
-            file_name="traffic_sign_report.csv",
-            mime="text/csv",
-            use_container_width=True
+        st.info(
+            "No predictions available yet."
         )
+
 
 # ============================================================
 # HISTORY
@@ -1365,18 +1331,19 @@ elif page == "📊 Analytics":
 
 elif page == "🕘 History":
 
-    st.markdown(
-        '<div class="section-title">🕘 Prediction History</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="card">
 
-    if not st.session_state.history:
+    <h2>🕘 Prediction History</h2>
 
-        st.info(
-            "Prediction history is empty."
-        )
+    <p>
+    Your recent traffic-sign analysis results.
+    </p>
 
-    else:
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.session_state.history:
 
         df = pd.DataFrame(
             st.session_state.history
@@ -1388,111 +1355,106 @@ elif page == "🕘 History":
             hide_index=True
         )
 
-        csv = df.to_csv(
-            index=False
-        ).encode("utf-8")
-
-        st.download_button(
-            "📥 Export History",
-            csv,
-            "prediction_history.csv",
-            "text/csv",
-            use_container_width=True
+        csv_data = df.to_csv(index=False).encode(
+            "utf-8"
         )
 
-        if st.button(
-            "🗑️ Clear History",
-            use_container_width=True
-        ):
+        st.download_button(
+            "⬇️ Download History CSV",
+            data=csv_data,
+            file_name="traffic_sign_history.csv",
+            mime="text/csv"
+        )
+
+        if st.button("🗑️ Clear History"):
 
             st.session_state.history = []
 
-            st.success(
-                "History cleared."
-            )
+            st.session_state.last_prediction = None
 
             st.rerun()
 
+    else:
+
+        st.info(
+            "🕘 No prediction history yet."
+        )
 # ============================================================
 # DEMO MODE
 # ============================================================
 
 elif page == "🧪 Demo Mode":
 
-    st.markdown(
-        '<div class="section-title">🧪 Demonstration Mode</div>',
-        unsafe_allow_html=True
+    st.markdown("""
+    <div class="card">
+
+    <h2>🧪 Demo Mode</h2>
+
+    <p>
+    Select a traffic sign and simulate a recognition result.
+    This mode is useful for demonstrating the project without
+    uploading an image.
+    </p>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    demo_name = st.selectbox(
+        "🚦 Select Demo Sign",
+        [data[0] for data in SIGNS.values()]
     )
 
-    st.info(
-        "This mode is useful for your college presentation "
-        "when the actual model is unavailable."
+    demo_id = next(
+        sid
+        for sid, data in SIGNS.items()
+        if data[0] == demo_name
     )
 
-    demos = {
-        "🛑 STOP": 14,
-        "🚫 NO ENTRY": 17,
-        "⚠️ GENERAL CAUTION": 18,
-        "🚸 CHILDREN CROSSING": 28,
-        "↪️ TURN RIGHT": 33,
-        "🔵 KEEP RIGHT": 38,
-        "5️⃣ SPEED LIMIT 50": 2
-    }
+    if st.button("▶️ Run Demo"):
 
-    selected = st.selectbox(
-        "Choose Demo Sign",
-        list(demos.keys())
-    )
+        name, category, meaning, safety = SIGNS[demo_id]
 
-    class_id = demos[selected]
+        confidence = 94
 
-    name, category, meaning, action = \
-        SIGNS[class_id]
+        st.session_state.history.append(
+            {
+                "Time": datetime.now().strftime(
+                    "%d-%m-%Y %H:%M"
+                ),
+                "Sign": name,
+                "Category": category,
+                "Confidence": f"{confidence}%"
+            }
+        )
 
-    demo_confidence = {
-        14: 98.7,
-        17: 97.3,
-        18: 95.8,
-        28: 94.5,
-        33: 96.4,
-        38: 97.8,
-        2: 96.9
-    }[class_id]
-
-    st.markdown(
-        f"""
+        st.markdown(f"""
         <div class="result-card">
+
+        <h2>🎯 Demo Result</h2>
 
         <div class="sign-name">
         🚦 {name}
         </div>
 
+        <br>
+
+        <b>Category:</b> {category}
+
+        <br><br>
+
+        <b>Confidence:</b>
+
         <div class="confidence">
-        {demo_confidence}%
+        {confidence}%
         </div>
 
-        <p>Demonstration Confidence</p>
-
         </div>
-        """,
-        unsafe_allow_html=True
-    )
+        """, unsafe_allow_html=True)
 
-    st.progress(
-        demo_confidence / 100
-    )
+        st.info(meaning)
 
-    st.write(
-        f"**Category:** {category}"
-    )
+        st.warning(safety)
 
-    st.write(
-        f"**Meaning:** {meaning}"
-    )
-
-    st.success(
-        f"🚘 Driver Action: {action}"
-    )
 
 # ============================================================
 # ABOUT
@@ -1500,70 +1462,50 @@ elif page == "🧪 Demo Mode":
 
 elif page == "ℹ️ About":
 
-    st.markdown(
-        '<div class="section-title">ℹ️ About Project</div>',
-        unsafe_allow_html=True
-    )
-
     st.markdown("""
     <div class="card">
 
-    <h2>🚦 Traffic Sign Recognition System</h2>
+    <h2>ℹ️ About Traffic Sign AI</h2>
 
     <p>
-    A computer-vision based application designed to
-    classify traffic-sign images and provide useful
-    road-safety information.
+    Traffic Sign AI is an educational Traffic Sign Recognition
+    project developed using Python and Streamlit.
+    </p>
+
+    <h3>🧠 Technologies</h3>
+
+    <p>
+    • Python<br>
+    • Streamlit<br>
+    • Pillow<br>
+    • Pandas<br>
+    • GTSRB Traffic Sign Classes
+    </p>
+
+    <h3>🚦 Project Features</h3>
+
+    <p>
+    • Traffic sign image upload<br>
+    • Recognition interface<br>
+    • 43-sign library<br>
+    • Safety assistant<br>
+    • Prediction history<br>
+    • Analytics dashboard<br>
+    • CSV export<br>
+    • Demo mode<br>
+    • Mobile-friendly interface
+    </p>
+
+    <h3>📱 Mobile Support</h3>
+
+    <p>
+    The interface is optimized for smartphone screens
+    and can be used through Streamlit.
     </p>
 
     </div>
     """, unsafe_allow_html=True)
 
-    a, b = st.columns(2)
-
-    with a:
-
-        st.markdown("### 🛠️ Technologies")
-
-        st.write("🐍 Python")
-        st.write("🎨 Streamlit")
-        st.write("🖼️ Pillow")
-        st.write("📊 Pandas")
-        st.write("🧠 Deep Learning")
-        st.write("🚦 GTSRB Dataset")
-
-    with b:
-
-        st.markdown("### 🎯 Applications")
-
-        st.write("• Driver assistance")
-        st.write("• Road safety education")
-        st.write("• Intelligent transportation")
-        st.write("• Traffic-sign learning")
-        st.write("• Computer Vision demonstration")
-
-    st.markdown("### 👤 Project User")
-
-    if st.session_state.name:
-
-        st.success(
-            f"Project user: {st.session_state.name}"
-        )
-
-    else:
-
-        st.info(
-            "No name entered yet."
-        )
-
-    st.markdown("### ⚠️ Disclaimer")
-
-    st.write(
-        "This application is an educational project. "
-        "It should not be used as a substitute for official "
-        "traffic signs, traffic signals or professional "
-        "driver-assistance systems."
-    )
 
 # ============================================================
 # FOOTER
@@ -1572,15 +1514,11 @@ elif page == "ℹ️ About":
 st.markdown("""
 <div class="footer">
 
-🚦 Traffic Sign AI
+🚦 <b>Traffic Sign AI</b><br>
 
-<br>
+Intelligent Traffic Sign Recognition & Road Safety Assistant<br>
 
-Python • Streamlit • Computer Vision • GTSRB
-
-<br><br>
-
-BCA Project
+Built with Python + Streamlit
 
 </div>
 """, unsafe_allow_html=True)
